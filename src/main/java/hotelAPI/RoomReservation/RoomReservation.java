@@ -26,10 +26,9 @@ public class RoomReservation {
 	@NotNull
 	@ManyToOne
 	private Room room;
-//		private int roomId;
+	@NotNull
 	@ManyToOne
 	private Reservation reservation;
-//	private int reservationId;
 	
 	public RoomReservation() 
 	{
@@ -39,8 +38,7 @@ public class RoomReservation {
 	public RoomReservation(@NotNull int roomId, int reservationId) 
 	{
 		super();
-//		this.roomId = roomId;
-//		this.reservationId = reservationId;
+
 	}
 
 

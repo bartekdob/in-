@@ -30,9 +30,9 @@ public class Hotel {
 		
 	}
 
-	public Hotel(String name, String city, String street, String buildingNr, String zipCode)
+	public Hotel(String hotelName, String city, String street, String buildingNr, String zipCode)
 	{
-		this.hotelName = name;
+		this.hotelName = hotelName;
 		this.city = city;
 		this.street = street; 
 		this.buildingNr = buildingNr; 
