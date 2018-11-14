@@ -16,8 +16,8 @@ import javax.validation.constraints.NotNull;
 public class Hotel {
 	
 	@Id
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-//	@Column(name = "id", updatable = false, nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", updatable = false, nullable = false, unique = true)
 	private int id;
 	@NotNull
 	private String hotelName;
@@ -30,9 +30,8 @@ public class Hotel {
 		
 	}
 
-	public Hotel(int id, String name, String city, String street, String buildingNr, String zipCode)
+	public Hotel(String name, String city, String street, String buildingNr, String zipCode)
 	{
-		this.id = id;
 		this.hotelName = name;
 		this.city = city;
 		this.street = street; 

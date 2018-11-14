@@ -1,27 +1,23 @@
-package hotelAPI.hotel;
+package hotelAPI.room;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
-public class HotelService {
+public class RoomService {
 	
-	@Autowired
-	private HotelRepository repo;
+	private RoomRepository repo;
 	
-	
-	public void add(Hotel entity)
+	public void add(Room entity)
 	{
 		repo.save(entity);
 	}
 	
-	public void delete(Hotel entity)
+	public void delete(Room entity)
 	{
 		repo.delete(entity);
 	}
@@ -31,16 +27,16 @@ public class HotelService {
 		repo.deleteById(id);
 	}
 	
-	public Optional<Hotel> getEntity(int id)
+	public Optional<Room> getEntity(int id)
 	{
 		return repo.findById(id);
 	}
 	
-	public List<Hotel> getAll()
+	public List<Room> getAll()
 	{
-		ArrayList<Hotel> entities = new ArrayList<>();
+		ArrayList<Room> entities = new ArrayList<>();
 		repo.findAll().forEach(entities::add);
 		return entities;
 	}
-
+		
 }

@@ -1,4 +1,4 @@
-package hotelAPI.hotel;
+package hotelAPI.RoomReservation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +10,20 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class HotelService {
+public class RoomReservationService{
+		
 	
 	@Autowired
-	private HotelRepository repo;
+	private RoomReservationRepository repo;
 	
 	
-	public void add(Hotel entity)
+	
+	public void add(RoomReservation entity)
 	{
 		repo.save(entity);
 	}
 	
-	public void delete(Hotel entity)
+	public void delete(RoomReservation entity)
 	{
 		repo.delete(entity);
 	}
@@ -31,16 +33,16 @@ public class HotelService {
 		repo.deleteById(id);
 	}
 	
-	public Optional<Hotel> getEntity(int id)
+	public Optional<RoomReservation> getEntity(int id)
 	{
 		return repo.findById(id);
 	}
 	
-	public List<Hotel> getAll()
+	public List<RoomReservation> getAll()
 	{
-		ArrayList<Hotel> entities = new ArrayList<>();
+		ArrayList<RoomReservation> entities = new ArrayList<>();
 		repo.findAll().forEach(entities::add);
 		return entities;
 	}
-
+	
 }

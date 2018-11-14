@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
+
 @RestController
 public class HotelController {
 
@@ -18,27 +20,27 @@ public class HotelController {
 	
 	@RequestMapping("/hotels")
 	public List<Hotel> getAllHotels() {
-		return service.viewAll();
+		return service.getAll();
 	}
 	
 	@RequestMapping("/hotels/{id}")
 	public Optional<Hotel> getHotel(@PathVariable int id) {
-		return service.getHotel(id);
+		return service.getEntity(id);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/hotels")
-	public void addHotel(@RequestBody Hotel Hotel) {
-		service.addHotel(Hotel);
+	public void addHotel(@RequestBody Hotel hotel) {
+		service.add(hotel);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/hotels/{id}")
-	public void addHotel(@RequestBody Hotel Hotel, @PathVariable int id) {
-		service.updateHotel(Hotel);
+	public void addHotel(@RequestBody Hotel hotel, @PathVariable int id) {
+		service.add(hotel);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/Hotels/{id}")
 	public void deleteHotel(@RequestBody Hotel Hotel, @PathVariable int id) {
-		service.deleteHotel(id);
+		service.deleteById(id);
 	}
 	
 	
