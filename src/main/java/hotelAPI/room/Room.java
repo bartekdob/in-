@@ -37,14 +37,19 @@ public class Room {
 	@JoinColumn(name = "roomType_id", nullable = false)
 	private RoomType rType;
 		
+	private int storey;
+	private float area;
+	
 	public Room() {
 		
 	}
 
-	public Room(int hotelId, int typeId)
+	public Room(@NotNull int hotelId, @NotNull int typeId, int storey, float area)
 	{
 		this.hotel.setId(hotelId);
 		this.rType.setId(typeId);
+		this.storey = storey;
+		this.area = area;
 	}
 	
 	public Room(Hotel hotel, RoomType rType)
@@ -75,6 +80,22 @@ public class Room {
 
 	public void setRoomTypeId(int roomTypeId) {
 		rType.setId(roomTypeId);
+	}
+
+	public int getStorey() {
+		return storey;
+	}
+
+	public void setStorey(int storey) {
+		this.storey = storey;
+	}
+
+	public float getArea() {
+		return area;
+	}
+
+	public void setArea(float area) {
+		this.area = area;
 	}
 
 	
