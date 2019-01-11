@@ -52,9 +52,16 @@ public class DBFileController {
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(dbFile.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
                 .body(new ByteArrayResource(dbFile.getData()));
-
-
     }
 
+    @GetMapping("/test")
+    public ResponseEntity test() {
+        // Load file from database
+        DBFile dbFile = DBFileService.getNoPhotoAvailableGraphic();
+
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(dbFile.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
+                .body(new ByteArrayResource(dbFile.getData()));
+    }
 
 }

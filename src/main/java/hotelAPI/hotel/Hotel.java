@@ -1,12 +1,8 @@
 package hotelAPI.hotel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import hotelAPI.DBFile.DBFile;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
@@ -21,13 +17,19 @@ public class Hotel {
 	private int id;
 	@NotNull
 	private String hotelName;
+	@ManyToOne
+	@JoinColumns(@JoinColumn(name="mainPhotoId", referencedColumnName="id"))
+	public DBFile mainPhoto;
+
 	public String city;
 	public String street;
 	public String buildingNr;
 	public String zipCode;
+
+
 	
 	public Hotel() {
-		
+		mainPhoto = new DBFile();
 	}
 
 	public Hotel(String hotelName, String city, String street, String buildingNr, String zipCode)
@@ -38,13 +40,30 @@ public class Hotel {
 		this.buildingNr = buildingNr; 
 		this.zipCode = zipCode;
 	}
-	
+
+
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getHotelName() {
+		return hotelName;
+	}
+
+	public void setHotelName(String hotelName) {
+		this.hotelName = hotelName;
+	}
+
+	public String getMainPhotoId() {
+		return mainPhoto.getId();
+	}
+
+	public void setMainPhotoId(String mainPhotoId) {
+		this.mainPhoto.setId(mainPhotoId);
 	}
 
 	public String getName() {

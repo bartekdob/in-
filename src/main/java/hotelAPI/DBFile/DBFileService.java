@@ -35,4 +35,10 @@ public class DBFileService {
         return dbFileRepository.findById(fileId)
                 .orElseThrow(() -> new RuntimeException("File not found with id " + fileId));
     }
+
+    public DBFile getNoPhotoAvailableGraphic()
+    {
+        return dbFileRepository.findByFileName("NoPhotoAvailable.png").get(0);
+    }
+
 }

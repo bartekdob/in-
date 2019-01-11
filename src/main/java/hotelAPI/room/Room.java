@@ -36,11 +36,13 @@ public class Room {
 	@ManyToOne
 	@JoinColumn(name = "roomType_id", nullable = false)
 	private RoomType rType;
-		
+
 	private int storey;
 	private float area;
 	
 	public Room() {
+		this.hotel = new Hotel();
+		this.rType = new RoomType();
 		
 	}
 

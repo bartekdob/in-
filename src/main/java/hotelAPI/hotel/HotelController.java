@@ -1,8 +1,10 @@
 package hotelAPI.hotel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import hotelAPI.DBFile.DBFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +15,17 @@ public class HotelController {
 
 	@Autowired
 	private HotelService service;
+	@Autowired
+	private DBFileService dbFileService;
 	
 	@RequestMapping("/hotels")
-	public List<Hotel> getAllHotels() {
-		return service.getAll();
+	public List<HotelViewModel> getAllHotels() {
+		ArrayList<HotelViewModel> resp = new ArrayList<>();
+		service.getAll().forEach(hotel -> {	HotelViewModel hvm = new HotelViewModel(hotel);
+											hvm.setPhoto(dbFileService.getFile(hotel.getMainPhotoId()).getData());
+											resp.add(hvm);
+											});
+		return resp;
 	}
 	
 	@RequestMapping("/hotels/{id}")
@@ -26,6 +35,7 @@ public class HotelController {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/hotels")
 	public void addHotel(@RequestBody Hotel hotel) {
+		hotel.mainPhoto = dbFileService.getNoPhotoAvailableGraphic();
 		service.add(hotel);
 	}
 	
