@@ -29,8 +29,11 @@ public class HotelController {
 	}
 	
 	@RequestMapping("/hotels/{id}")
-	public Optional<Hotel> getHotel(@PathVariable int id) {
-		return service.getEntity(id);
+	public Optional<HotelDetailsViewModel> getHotel(@PathVariable int id) {
+		HotelDetailsViewModel hdvm = new HotelDetailsViewModel(service.getEntity(id).get());
+		if(hdvm != null)
+			dbFileService.getHotelPhotos(id).forEach(hotelPhoto-> hdvm.getRoomPhotos().add(hotelPhoto.getData()));
+		return Optional.of(hdvm);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/hotels")

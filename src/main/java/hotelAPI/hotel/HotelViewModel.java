@@ -1,6 +1,7 @@
 package hotelAPI.hotel;
 
 public class HotelViewModel {
+    private Integer id;
     private String name;
     private byte[] photo;
 
@@ -11,6 +12,7 @@ public class HotelViewModel {
 
     public HotelViewModel(Hotel hotel)
     {
+        id = hotel.getId();
         name = hotel.getName();
         city = hotel.getCity();
         street = hotel.getStreet();
@@ -64,5 +66,13 @@ public class HotelViewModel {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

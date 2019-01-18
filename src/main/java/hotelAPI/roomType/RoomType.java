@@ -25,19 +25,21 @@ public class RoomType {
 	private int bathroomCount;
 	private String description;
 	private boolean tv;
-	
+	private float prize;
+
 	public RoomType() {
 		
 	}
 
 	public RoomType(@NotNull String roomTypeName, int doubleBedCount, int singleBedCount, int bathroomCount, 
-			String description, boolean tv) {
+			String description, boolean tv, float prize) {
 		this.roomTypeName = roomTypeName;
 		this.doubleBedCount = doubleBedCount;
 		this.singleBedCount = singleBedCount;
 		this.bathroomCount = bathroomCount;
 		this.description = description;
 		this.tv = tv;
+		this.prize = prize;
 	}
 
 	public int getId() {

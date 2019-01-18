@@ -37,6 +37,21 @@ public class DBFileController {
                 file.getContentType(), file.getSize());
     }
 
+
+    @PostMapping("/uploadHotelPhoto")
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("hotelId") Integer hotelId) {
+        DBFile dbFile = DBFileService.storeFile(file, hotelId);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(dbFile.getId())
+                .toUriString();
+
+        return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri,
+                file.getContentType(), file.getSize());
+    }
+
+
     @PostMapping("/uploadMultipleFiles")
     public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
         return Arrays.asList(files)
@@ -44,6 +59,15 @@ public class DBFileController {
                 .map(file -> uploadFile(file))
                 .collect(Collectors.toList());
     }
+
+    @PostMapping("/uploadHotelPhotos")
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, Integer hotelId) {
+        return Arrays.asList(files)
+                .stream()
+                .map(file -> uploadFile(file, hotelId))
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/downloadFile/{fileId}")
     public ResponseEntity downloadFile(@PathVariable String fileId) {
         // Load file from database
