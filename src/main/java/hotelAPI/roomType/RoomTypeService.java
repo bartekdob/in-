@@ -41,6 +41,9 @@ public class RoomTypeService {
 		return entities;
 	}
 	
+	public ArrayList<RoomType> getHotelRoomTypes(int hotelId){
+		return repo.findByHotelId(hotelId);
+	}
 
 	
 }

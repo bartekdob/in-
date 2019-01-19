@@ -1,5 +1,7 @@
 package hotelAPI.hotel;
 
+import hotelAPI.roomType.RoomType;
+
 import java.util.ArrayList;
 
 public class HotelDetailsViewModel {
@@ -10,6 +12,7 @@ public class HotelDetailsViewModel {
     private String street;
     private String buildingNr;
     private String zipCode;
+    private ArrayList<RoomType> roomTypes;
 
     public HotelDetailsViewModel(Hotel hotel) {
         this.id = hotel.getId();
@@ -19,6 +22,7 @@ public class HotelDetailsViewModel {
         this.buildingNr = hotel.getBuildingNr();
         this.zipCode = hotel.getZipCode();
         this.roomPhotos = new ArrayList<>();
+        this.roomTypes = new ArrayList<>();
     }
 
     public ArrayList<byte[]> getRoomPhotos() {
@@ -31,6 +35,14 @@ public class HotelDetailsViewModel {
 
     public Integer getId() {
         return id;
+    }
+
+    public ArrayList<RoomType> getRoomTypes() {
+        return roomTypes;
+    }
+
+    public void setRoomTypes(ArrayList<RoomType> roomTypes) {
+        this.roomTypes = roomTypes;
     }
 
     public void setId(Integer id) {

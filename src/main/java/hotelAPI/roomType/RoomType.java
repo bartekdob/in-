@@ -1,12 +1,8 @@
 package hotelAPI.roomType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import hotelAPI.hotel.Hotel;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
@@ -18,6 +14,12 @@ public class RoomType {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false, unique = true)
 	private int id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns(@JoinColumn(name="HotelId", referencedColumnName="id"))
+	private Hotel hotel;
+	@Column(name="HotelId", insertable = false, updatable = false, nullable = false)
+	private Integer hotelId;
 	@NotNull
 	private String roomTypeName;
 	private int doubleBedCount;
@@ -31,7 +33,7 @@ public class RoomType {
 		
 	}
 
-	public RoomType(@NotNull String roomTypeName, int doubleBedCount, int singleBedCount, int bathroomCount, 
+	public RoomType(@NotNull String roomTypeName, int hotelId, int doubleBedCount, int singleBedCount, int bathroomCount,
 			String description, boolean tv, float prize) {
 		this.roomTypeName = roomTypeName;
 		this.doubleBedCount = doubleBedCount;
@@ -40,6 +42,7 @@ public class RoomType {
 		this.description = description;
 		this.tv = tv;
 		this.prize = prize;
+		this.hotelId= hotelId;
 	}
 
 	public int getId() {
@@ -48,6 +51,22 @@ public class RoomType {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Integer getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(Integer hotelId) {
+		this.hotelId = hotelId;
+	}
+
+	public float getPrize() {
+		return prize;
+	}
+
+	public void setPrize(float prize) {
+		this.prize = prize;
 	}
 
 	public String getRoomTypeName() {

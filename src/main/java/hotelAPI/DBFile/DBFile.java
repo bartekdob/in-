@@ -16,7 +16,7 @@ public class DBFile {
     @JoinColumns(@JoinColumn(name="HotelId", referencedColumnName="id"))
     private Hotel hotel;
 
-    @Column(name="HotelId", insertable = false, updatable = false)
+    @Column(name="HotelId", insertable = false, updatable = false, nullable = false)
     private Integer hotelId;
 
     private String fileName;

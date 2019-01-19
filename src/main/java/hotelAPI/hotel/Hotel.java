@@ -19,12 +19,14 @@ public class Hotel {
 	private String hotelName;
 	@ManyToOne
 	@JoinColumns(@JoinColumn(name="mainPhotoId", referencedColumnName="id"))
-	public DBFile mainPhoto;
+	private DBFile mainPhoto;
 
-	public String city;
-	public String street;
-	public String buildingNr;
-	public String zipCode;
+	private String description;
+
+	private String city;
+	private String street;
+	private String buildingNr;
+	private String zipCode;
 
 
 	
@@ -32,13 +34,14 @@ public class Hotel {
 		mainPhoto = new DBFile();
 	}
 
-	public Hotel(String hotelName, String city, String street, String buildingNr, String zipCode)
+	public Hotel(String hotelName, String city, String street, String buildingNr, String zipCode, String description)
 	{
 		this.hotelName = hotelName;
 		this.city = city;
 		this.street = street; 
 		this.buildingNr = buildingNr; 
 		this.zipCode = zipCode;
+		this.description = description;
 	}
 
 
@@ -60,6 +63,22 @@ public class Hotel {
 
 	public String getMainPhotoId() {
 		return mainPhoto.getId();
+	}
+
+	public DBFile getMainPhoto() {
+		return mainPhoto;
+	}
+
+	public void setMainPhoto(DBFile mainPhoto) {
+		this.mainPhoto = mainPhoto;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public void setMainPhotoId(String mainPhotoId) {
