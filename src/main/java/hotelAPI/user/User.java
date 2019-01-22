@@ -1,6 +1,7 @@
 package hotelAPI.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,13 +17,14 @@ public class User {
     private String firstName;
     @Column
     private String lastName;
-    @Column
+    @Column(unique = true, nullable = false)
     private String username;
     @Column
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Email
+    @Column(unique = true, nullable = false)
     private String email;
 
     public int getId() {
