@@ -25,7 +25,12 @@ public class HotelController {
 	public List<HotelViewModel> getAllHotels() {
 		ArrayList<HotelViewModel> resp = new ArrayList<>();
 		service.getAll().forEach(hotel -> {	HotelViewModel hvm = new HotelViewModel(hotel);
-											hvm.setPhoto(dbFileService.getFile(hotel.getMainPhotoId()).getData());
+											try{
+												hvm.setPhoto(dbFileService.getFile(hotel.getMainPhotoId()).getData());
+											}
+											catch (Exception ex){
+
+											}
 											resp.add(hvm);
 											});
 		return resp;

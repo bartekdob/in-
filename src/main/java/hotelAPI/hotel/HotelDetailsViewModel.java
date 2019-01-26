@@ -13,6 +13,7 @@ public class HotelDetailsViewModel {
     private String buildingNr;
     private String zipCode;
     private ArrayList<RoomType> roomTypes;
+    private String description;
 
     public HotelDetailsViewModel(Hotel hotel) {
         this.id = hotel.getId();
@@ -21,6 +22,7 @@ public class HotelDetailsViewModel {
         this.street = hotel.getStreet();
         this.buildingNr = hotel.getBuildingNr();
         this.zipCode = hotel.getZipCode();
+        this.description = hotel.getDescription();
         this.roomPhotos = new ArrayList<>();
         this.roomTypes = new ArrayList<>();
     }
@@ -87,5 +89,13 @@ public class HotelDetailsViewModel {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

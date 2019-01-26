@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.AuthenticationException;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -51,9 +52,15 @@ public class AuthenticationController {
             userService.save(user);
         }
         catch (Exception ex){
-            return ResponseEntity.ok("Konto o takiej nazwie lub na ten email juz istnieje");
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("message", "Konto o takiej nazwie lub na ten email juz istnieje");
+            resp.put("user", user);
+            return ResponseEntity.ok(resp);
         }
-        return ResponseEntity.ok(user);
+        LoginUser lu = new LoginUser();
+        lu.setUsername(user.getUsername());
+        lu.setPassword(user.getPassword());
+        return login(lu);
     }
 
 }
