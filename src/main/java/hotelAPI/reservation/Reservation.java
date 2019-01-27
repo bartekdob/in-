@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-//@Table(name="Hotels")
 public class Reservation {
 	
 	@Id
