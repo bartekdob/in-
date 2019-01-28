@@ -1,5 +1,6 @@
 package hotelAPI.room;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,5 +44,10 @@ public class RoomController {
 	public void deleteRoom(@PathVariable int id) {
 		service.deleteById(id);
 	}
-	
+
+	@RequestMapping("/availableRooms")
+	public List<Room> getAvailableRooms(@RequestBody roomCheck rc)
+	{
+		return service.findFreeRooms(rc.roomTypeId, rc.hotelId, new Date(rc.dateFrom.getTime()), new Date(rc.dateTo.getTime()));
+	}
 }

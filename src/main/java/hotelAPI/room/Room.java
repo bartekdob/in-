@@ -1,15 +1,6 @@
 package hotelAPI.room;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
@@ -27,29 +18,36 @@ public class Room {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", updatable = false, nullable = false, unique = true)
 	private int id;
-	
-	
-	@ManyToOne
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name = "hotel_id", nullable = false)
-	private Hotel hotel; 
-	@ManyToOne
-	@JoinColumn(name = "roomType_id", nullable = false)
-	private RoomType rType;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns(@JoinColumn(name="hotelId", referencedColumnName="id"))
+	private Hotel hotel;
+	@Column(name="hotelId", insertable = false, updatable = false, nullable = false)
+	private Integer hotelId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumns(@JoinColumn(name="roomTypeId", referencedColumnName="id"))
+	private RoomType roomType;
+	@Column(name="roomTypeId", insertable = false, updatable = false, nullable = false)
+	private Integer roomTypeId;
 
 	private int storey;
 	private float area;
 	
 	public Room() {
-		this.hotel = new Hotel();
-		this.rType = new RoomType();
+		/*this.hotel = new Hotel();
+		this.roomType = new RoomType();*/
 		
 	}
 
 	public Room(@NotNull int hotelId, @NotNull int typeId, int storey, float area)
 	{
+		this.hotelId = hotelId;
+		this.roomTypeId = typeId;
+		this.hotel = new Hotel();
+		this.roomType = new RoomType();
 		this.hotel.setId(hotelId);
-		this.rType.setId(typeId);
+		this.roomType.setId(typeId);
 		this.storey = storey;
 		this.area = area;
 	}
@@ -57,7 +55,7 @@ public class Room {
 	public Room(Hotel hotel, RoomType rType)
 	{
 		this.hotel = hotel;
-		this.rType = rType;
+		this.roomType = rType;
 	}
 	
 	public int getId() {
@@ -76,14 +74,6 @@ public class Room {
 		this.hotel.setId(hotelId);
 	}
 
-	public int getRoomTypeId() {
-		return rType.getId();
-	}
-
-	public void setRoomTypeId(int roomTypeId) {
-		rType.setId(roomTypeId);
-	}
-
 	public int getStorey() {
 		return storey;
 	}
@@ -100,5 +90,31 @@ public class Room {
 		this.area = area;
 	}
 
-	
+	public void setHotelId(Integer hotelId) {
+		this.hotelId = hotelId;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
+
+	public RoomType getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(RoomType roomType) {
+		this.roomType = roomType;
+	}
+
+	public Integer getRoomTypeId() {
+		return roomTypeId;
+	}
+
+	public void setRoomTypeId(Integer roomTypeId) {
+		this.roomTypeId = roomTypeId;
+	}
 }

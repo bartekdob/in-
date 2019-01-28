@@ -60,7 +60,9 @@ public class AuthenticationController {
         LoginUser lu = new LoginUser();
         lu.setUsername(user.getUsername());
         lu.setPassword(user.getPassword());
-        return login(lu);
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "Utworzono nowe konto");
+        return ResponseEntity.ok(resp);
     }
 
 }

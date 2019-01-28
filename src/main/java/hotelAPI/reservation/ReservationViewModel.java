@@ -3,7 +3,7 @@ package hotelAPI.reservation;
 import hotelAPI.roomType.RoomType;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Map;
 
 public class ReservationViewModel implements Serializable {

@@ -1,6 +1,7 @@
 package hotelAPI.room;
 
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +41,23 @@ public class RoomService {
 		repo.findAll().forEach(entities::add);
 		return entities;
 	}
-		
+
+	public List<Room> getByIdBetween(ArrayList<Integer> ids)
+	{
+		return repo.findAllByIdIn(ids);
+	}
+
+	public List<Room> findFreeRooms(int roomTypeId, int hotelId, Date dateFrom, Date dateTo){
+		/*RoomService roomService = null;
+		ArrayList<Room> roomList = new ArrayList<>();
+		repo.findFreeRooms(roomTypeId, hotelId, dateFrom, dateTo).forEach(ob ->{
+			roomList.add(new Room())
+		});*/
+		ArrayList<Integer> ids = repo.findFreeRooms(roomTypeId,hotelId,dateFrom,dateTo);
+		ArrayList<Room> rooms = repo.findAllByIdIn(ids);
+		return rooms;
+	}
+	public List<Integer> findFreeRoomsIds(int roomTypeId, int hotelId, Date dateFrom, Date dateTo) {
+		return repo.findFreeRooms(roomTypeId, hotelId, dateFrom, dateTo);
+	}
 }

@@ -2,6 +2,8 @@ package hotelAPI.reservation;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface ReservationRepository extends CrudRepository<Reservation, Integer> {
+import java.util.List;
 
+public interface ReservationRepository extends CrudRepository<Reservation, Integer> {
+    //List<Reservation> find
 }
