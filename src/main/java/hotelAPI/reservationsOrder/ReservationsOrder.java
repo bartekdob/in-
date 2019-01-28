@@ -27,18 +27,21 @@ public class ReservationsOrder {
     @Column(name="hotelId", insertable = false, updatable = false, nullable = false)
     private int hotelId;
 
+    @NotNull
+    private float totalCost;
     private int paymentId;
 
     public ReservationsOrder() {
     }
 
-    public ReservationsOrder(int userId, @NotNull int hotelId) {
+    public ReservationsOrder(int userId, @NotNull int hotelId, float totalCost) {
         this.hotel = new Hotel();
         this.user = new User();
         this.userId = userId;
         this.hotelId = hotelId;
-        hotel.setId(hotelId);
-        user.setId(userId);
+        this.hotel.setId(hotelId);
+        this.user.setId(userId);
+        this.totalCost = totalCost;
     }
 
     public int getId() {
@@ -79,5 +82,21 @@ public class ReservationsOrder {
 
     public void setPaymentId(int paymentId) {
         this.paymentId = paymentId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public float getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
     }
 }

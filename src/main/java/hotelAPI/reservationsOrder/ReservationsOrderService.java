@@ -7,10 +7,16 @@ import hotelAPI.reservation.ReservationRepository;
 import hotelAPI.reservation.ReservationService;
 import hotelAPI.room.Room;
 import hotelAPI.room.RoomService;
+import hotelAPI.roomType.RoomType;
+import hotelAPI.roomType.RoomTypeService;
+import hotelAPI.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -24,6 +30,10 @@ public class ReservationsOrderService {
     ReservationService reservationService;
     @Autowired
     HotelService hotelService;
+    @Autowired
+    RoomTypeService roomTypeService;
+    @Autowired
+    UserService userService;
 
     private boolean orderCanBySatisfied = true ;
 
@@ -43,6 +53,8 @@ public class ReservationsOrderService {
         repo.deleteById(id);
     }
 
+
+
     List<Reservation> tryToReserve(ReservationOrderViewModel rovm){
         ArrayList<Room> roomList = new ArrayList<>();
         ArrayList<Reservation> reservationList = new ArrayList<>();
@@ -52,7 +64,8 @@ public class ReservationsOrderService {
         });
         if(orderCanBySatisfied)
         {
-            ReservationsOrder ro = repo.save(new ReservationsOrder(rovm.getUserId(),rovm.getHotelId()));
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            ReservationsOrder ro = repo.save(new ReservationsOrder(userService.getUserId(authentication.getName()),rovm.getHotelId(), rovm.getTotalCost()));
       //      Hotel hotel = hotelService.getEntity(rovm.getHotelId()).get();
             final int roId = ro.getId();
             try{
@@ -73,11 +86,12 @@ public class ReservationsOrderService {
             }
             catch (Exception err)
             {
-                reservationList.forEach(reservation -> reservationService.deleteById(reservation.getId()););
+                reservationList.forEach(reservation -> reservationService.deleteById(reservation.getId()));
                 repo.deleteById(roId);
             }
 
         }
+        orderCanBySatisfied = true;
             return reservationList;
     }
 }

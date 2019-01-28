@@ -58,6 +58,7 @@ public class RoomService {
 		return rooms;
 	}
 	public List<Integer> findFreeRoomsIds(int roomTypeId, int hotelId, Date dateFrom, Date dateTo) {
-		return repo.findFreeRooms(roomTypeId, hotelId, dateFrom, dateTo);
+		List<Integer> resp = repo.findFreeRooms(roomTypeId, hotelId, dateFrom, dateTo);
+		return resp;
 	}
 }

@@ -11,8 +11,8 @@ public class ReservationOrderViewModel {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateTo;
     private int hotelId;
-    private int userId;
     private Map<Integer, Integer> roomTypeRequest; // kluczem bedzie RoomTypeId, a wartoscia ilosc zamawianych pokoi danego typu.
+    private float totalCost;
 
     public Date getDateFrom() {
         return dateFrom;
@@ -38,19 +38,19 @@ public class ReservationOrderViewModel {
         this.hotelId = hotelId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public Map<Integer, Integer> getRoomTypeRequest() {
         return roomTypeRequest;
     }
 
     public void setRoomTypeRequest(Map<Integer, Integer> roomTypeRequest) {
         this.roomTypeRequest = roomTypeRequest;
+    }
+
+    public float getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(float totalCost) {
+        this.totalCost = totalCost;
     }
 }

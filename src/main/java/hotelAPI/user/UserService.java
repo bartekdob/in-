@@ -25,6 +25,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
+    public Integer getUserId(String username){
+        User user = repo.findByUsername(username);
+        return user.getId();
+    }
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repo.findByUsername(username);
         if(user == null){
