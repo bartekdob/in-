@@ -58,8 +58,8 @@ public class ReservationsOrderService {
     List<Reservation> tryToReserve(ReservationOrderViewModel rovm){
         ArrayList<Room> roomList = new ArrayList<>();
         ArrayList<Reservation> reservationList = new ArrayList<>();
-        rovm.getRoomTypeRequest().forEach((roomTypeId, requestedNumber)->{
-            if(roomService.findFreeRoomsIds(roomTypeId, rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()).size() < requestedNumber)
+        rovm.getRoomRequests().forEach(roomRequest ->{
+            if(roomService.findFreeRoomsIds(roomRequest.getRoomTypeId(), rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()).size() < roomRequest.getRequestedNumber())
                 orderCanBySatisfied = false;
         });
         if(orderCanBySatisfied)
@@ -69,10 +69,10 @@ public class ReservationsOrderService {
       //      Hotel hotel = hotelService.getEntity(rovm.getHotelId()).get();
             final int roId = ro.getId();
             try{
-                rovm.getRoomTypeRequest().forEach((roomTypeId, requestedNumber)-> {
+                rovm.getRoomRequests().forEach((roomRequest)-> {
                     roomList.clear();
-                    roomList.addAll(roomService.findFreeRooms(roomTypeId, rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()));
-                    for(int i=0; i < requestedNumber; i++)
+                    roomList.addAll(roomService.findFreeRooms(roomRequest.getRoomTypeId(), rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()));
+                    for(int i=0; i < roomRequest.getRequestedNumber(); i++)
                     {
                         reservationList.add(new Reservation(roomList.get(i), ro, rovm.getDateFrom(), rovm.getDateTo()));
                     }

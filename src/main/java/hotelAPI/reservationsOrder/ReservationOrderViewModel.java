@@ -3,6 +3,7 @@ package hotelAPI.reservationsOrder;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class ReservationOrderViewModel {
@@ -11,8 +12,10 @@ public class ReservationOrderViewModel {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateTo;
     private int hotelId;
-    private Map<Integer, Integer> roomTypeRequest; // kluczem bedzie RoomTypeId, a wartoscia ilosc zamawianych pokoi danego typu.
+    private ArrayList<RoomRequest> roomRequests;
     private float totalCost;
+
+
 
     public Date getDateFrom() {
         return dateFrom;
@@ -38,12 +41,12 @@ public class ReservationOrderViewModel {
         this.hotelId = hotelId;
     }
 
-    public Map<Integer, Integer> getRoomTypeRequest() {
-        return roomTypeRequest;
+    public ArrayList<RoomRequest> getRoomRequests() {
+        return roomRequests;
     }
 
-    public void setRoomTypeRequest(Map<Integer, Integer> roomTypeRequest) {
-        this.roomTypeRequest = roomTypeRequest;
+    public void setRoomRequests(ArrayList<RoomRequest> roomRequests) {
+        this.roomRequests = roomRequests;
     }
 
     public float getTotalCost() {
