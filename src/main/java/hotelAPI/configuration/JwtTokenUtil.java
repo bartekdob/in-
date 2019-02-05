@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -44,18 +46,18 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(new Date());
     }
 
-    public String generateToken(User user) {
-        return doGenerateToken(user.getUsername());
-    }
+    public String doGenerateToken(User user) {
 
-    private String doGenerateToken(String subject) {
-
-        Claims claims = Jwts.claims().setSubject(subject);
-        claims.put("scopes", Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        Set authorities = new HashSet<>();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" +role.getName()));
+        });
+        claims.put("scopes", Arrays.asList(authorities));
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuer("http://devglan.com")
+                .setIssuer("http://localhost:8080")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS*1000))
                 .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)

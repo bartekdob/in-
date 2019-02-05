@@ -1,10 +1,11 @@
 package hotelAPI.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import hotelAPI.Role.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -26,6 +27,12 @@ public class User {
     @Email
     @Column(unique = true, nullable = false)
     private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "UserRole", joinColumns = {
+            @JoinColumn(name = "userId") }, inverseJoinColumns = {
+            @JoinColumn(name = "roleId") })
+    private Set<Role> roles;
 
     public int getId() {
         return id;
@@ -73,5 +80,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set roles) {
+        this.roles = roles;
     }
 }
