@@ -1,4 +1,5 @@
 package hotelAPI.DBFile;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.hotel.Hotel;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +13,7 @@ public class DBFile {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns(@JoinColumn(name="HotelId", referencedColumnName="id"))
     private Hotel hotel;

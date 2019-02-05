@@ -41,5 +41,10 @@ public class ReservationService{
 		repo.findAll().forEach(entities::add);
 		return entities;
 	}
+
+	public List<Reservation> findByOrderId(int orderId)
+	{
+		return repo.findByOrderId(orderId);
+	}
 	
 }

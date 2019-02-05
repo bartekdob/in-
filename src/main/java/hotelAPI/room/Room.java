@@ -3,6 +3,7 @@ package hotelAPI.room;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -19,13 +20,14 @@ public class Room {
 	@Column(name = "id", updatable = false, nullable = false, unique = true)
 	private int id;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="hotelId", referencedColumnName="id"))
 	private Hotel hotel;
 	@Column(name="hotelId", insertable = false, updatable = false, nullable = false)
 	private Integer hotelId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="roomTypeId", referencedColumnName="id"))
 	private RoomType roomType;
 	@Column(name="roomTypeId", insertable = false, updatable = false, nullable = false)

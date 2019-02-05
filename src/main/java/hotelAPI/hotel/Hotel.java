@@ -1,5 +1,6 @@
 package hotelAPI.hotel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.DBFile.DBFile;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class Hotel {
 	private int id;
 	@NotNull
 	private String hotelName;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="mainPhotoId", referencedColumnName="id"))
 	private DBFile mainPhoto;
 

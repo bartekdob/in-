@@ -1,6 +1,7 @@
 package hotelAPI.reservation;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.reservationsOrder.ReservationsOrder;
 import hotelAPI.room.Room;
 import javax.persistence.*;
@@ -16,12 +17,13 @@ public class Reservation {
 	@Column(name = "id", updatable = false, nullable = false, unique = true)
 	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne//(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="roomId", referencedColumnName="id"))
 	private Room room;
 	@Column(name="roomId", insertable = false, updatable = false, nullable = false)
 	private Integer roomId;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="orderId", referencedColumnName="id"))
 	private ReservationsOrder reservationsOrder;

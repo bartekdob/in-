@@ -1,5 +1,6 @@
 package hotelAPI.reservationsOrder;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.hotel.Hotel;
 import hotelAPI.user.User;
 
@@ -16,12 +17,14 @@ public class ReservationsOrder {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns(@JoinColumn(name="userId", referencedColumnName="id"))
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
     @NotNull
     @Column(name="userId", insertable = false, updatable = false, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne//(fetch = FetchType.LAZY)
     @JoinColumns(@JoinColumn(name="hotelId", referencedColumnName="id"))
     private Hotel hotel;
     @Column(name="hotelId", insertable = false, updatable = false, nullable = false)
