@@ -1,9 +1,14 @@
 package hotelAPI.user;
 
 
+import hotelAPI.hotel.Hotel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service(value = "UserService")
@@ -43,10 +49,12 @@ public class UserService implements UserDetailsService {
         return authorities;
     }
 
-    public List<User> findAll() {
+
+    public Set<UserDTO> findAll() {
         List<User> list = new ArrayList<>();
         repo.findAll().iterator().forEachRemaining(list::add);
-        return list;
+        Set<UserDTO> users = list.stream().map(user -> new UserDTO(user)).collect(Collectors.toSet())
+;        return users;
     }
 
     public void delete(int id) {
@@ -72,13 +80,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User save(User user) {
-/*        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-        newUser.setEmail(user.getEmail());*/
         user.setPassword(bcryptEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
+
+
+
 }

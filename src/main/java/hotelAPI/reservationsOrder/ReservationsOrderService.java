@@ -59,15 +59,11 @@ public class ReservationsOrderService {
             if(roomService.findFreeRoomsIds(roomRequest.getRoomTypeId(), rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()).size() < roomRequest.getRequestedNumber())
                 orderCanBeSatisfied = false;
         }
-/*        rovm.getRoomRequests().forEach(roomRequest ->{
-            if(roomService.findFreeRoomsIds(roomRequest.getRoomTypeId(), rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()).size() < roomRequest.getRequestedNumber())
-                orderCanBeSatisfied = false;
-        });*/
+
         if(orderCanBeSatisfied)
         {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             ReservationsOrder ro = repo.save(new ReservationsOrder(userService.getUserId(authentication.getName()),rovm.getHotelId(), rovm.getTotalCost()));
-      //      Hotel hotel = hotelService.getEntity(rovm.getHotelId()).get();
             final int roId = ro.getId();
             try{
                 rovm.getRoomRequests().forEach((roomRequest)-> {
@@ -80,7 +76,6 @@ public class ReservationsOrderService {
                 });
 
                 reservationList.forEach(reservation -> {
-                   // reservation.getRoom().setHotel(hotel);
                     reservation.setOrderId(roId);
                     reservationService.add(reservation);
                 });
@@ -92,7 +87,7 @@ public class ReservationsOrderService {
             }
 
         }
-        orderCanBeSatisfied = true;
+/*        orderCanBeSatisfied = true;*/
             return reservationList;
     }
 

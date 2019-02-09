@@ -1,11 +1,13 @@
 package hotelAPI.hotel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.DBFile.DBFile;
+import hotelAPI.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import java.util.Set;
 
 
 @Entity
@@ -20,6 +22,7 @@ public class Hotel {
 	private String hotelName;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="mainPhotoId", referencedColumnName="id"))
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private DBFile mainPhoto;
 
 	private String description;
@@ -28,7 +31,6 @@ public class Hotel {
 	private String street;
 	private String buildingNr;
 	private String zipCode;
-
 
 	
 	public Hotel() {
@@ -45,6 +47,15 @@ public class Hotel {
 		this.description = description;
 	}
 
+	public Hotel(HotelCreateDTO hcDTO)
+	{
+		this.hotelName = hcDTO.getName();
+		this.city = hcDTO.getCity();
+		this.street = hcDTO.getStreet();
+		this.buildingNr = hcDTO.getBuildingNr();
+		this.zipCode = hcDTO.getZipCode();
+		this.description = hcDTO.getDescription();
+	}
 
 	public int getId() {
 		return id;
@@ -126,6 +137,4 @@ public class Hotel {
 		this.zipCode = zipCode;
 	}
 
-	
-	
 }

@@ -2,6 +2,7 @@ package hotelAPI.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.Role.Role;
+import hotelAPI.hotel.Hotel;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,6 +34,12 @@ public class User {
             @JoinColumn(name = "userId") }, inverseJoinColumns = {
             @JoinColumn(name = "roleId") })
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "ManagerHotel", joinColumns = {
+            @JoinColumn(name = "userId") }, inverseJoinColumns = {
+            @JoinColumn(name = "hotelId") })
+    private Set<Hotel> managedHotels;
 
     public int getId() {
         return id;
@@ -86,7 +93,16 @@ public class User {
         return roles;
     }
 
-    public void setRoles(Set roles) {
+
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Hotel> getManagedHotels() {
+        return managedHotels;
+    }
+
+    public void setManagedHotels(Set<Hotel> managedHotels) {
+        this.managedHotels = managedHotels;
     }
 }

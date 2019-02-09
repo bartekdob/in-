@@ -1,5 +1,6 @@
 package hotelAPI.roomType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hotelAPI.hotel.Hotel;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class RoomType {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns(@JoinColumn(name="HotelId", referencedColumnName="id"))
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Hotel hotel;
 	@Column(name="HotelId", insertable = false, updatable = false, nullable = false)
 	private Integer hotelId;
@@ -43,6 +45,17 @@ public class RoomType {
 		this.tv = tv;
 		this.prize = prize;
 		this.hotelId= hotelId;
+	}
+
+	public RoomType(RoomTypeDTO rtDTO)
+	{
+		this.roomTypeName = rtDTO.getRoomTypeName();
+		this.description = rtDTO.getDescription();
+		this.bathroomCount = rtDTO.getBathroomCount();
+		this.singleBedCount = rtDTO.getSingleBedCount();
+		this.doubleBedCount = rtDTO.getDoubleBedCount();
+		this.tv = rtDTO.isTv();
+		this.prize = rtDTO.getPrize();
 	}
 
 	public int getId() {
@@ -117,8 +130,11 @@ public class RoomType {
 		this.tv = tv;
 	}
 
-	
+	public Hotel getHotel() {
+		return hotel;
+	}
 
-	
-	
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
+	}
 }
