@@ -14,25 +14,6 @@ public class DBFileService {
     @Autowired
     private DBFileRepository dbFileRepository;
 
-    public DBFile storeFile(MultipartFile file) {
-        // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new IOException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            DBFile dbFile = new DBFile(null, fileName, file.getContentType(), file.getBytes());
-
-            return dbFileRepository.save(dbFile);
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
-
-
     public DBFile storeFile(MultipartFile file, Integer hotelId) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());

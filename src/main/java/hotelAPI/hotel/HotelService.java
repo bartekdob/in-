@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import hotelAPI.DBFile.DBFile;
+import hotelAPI.DBFile.DBFileService;
 import hotelAPI.room.Room;
 import hotelAPI.roomType.RoomType;
 import hotelAPI.roomType.RoomTypeService;
@@ -18,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -33,7 +36,7 @@ public class HotelService {
 	private UserService userService;
 
 	@Autowired
-	private RoomTypeService roomTypeService;
+	private DBFileService dbFileService;
 
 	@Autowired
 	private EntityManagerFactory entityManagerFactory;
@@ -43,15 +46,16 @@ public class HotelService {
 	{
 		repo.save(entity);
 	}
-	
-	public void delete(Hotel entity)
-	{
-		repo.delete(entity);
-	}
-	
+
 	public void deleteById(int id)
 	{
-		repo.deleteById(id);
+		try{
+			repo.deleteHotelById(id);
+		}
+		catch (Exception ex)
+		{
+
+		}
 	}
 	
 	public Optional<Hotel> getEntity(int id)
@@ -73,15 +77,14 @@ public class HotelService {
 		return user.getManagedHotels();
 	}
 
-	public boolean createHotel(HotelCreateDTO hotelCreateDTO)
+	public int createHotel(HotelCreateDTO hotelCreateDTO)
 	{
 		Session session = null;
 		Transaction transaction = null;
-		boolean wasSuccess = true;
+		Hotel hotel = new Hotel(hotelCreateDTO);
 		try {
 			session = entityManagerFactory.unwrap(SessionFactory.class).openSession();
 			transaction = session.beginTransaction();
-			Hotel hotel = new Hotel(hotelCreateDTO);
 			session.save(hotel);
 			for(int i = 0; i < hotelCreateDTO.getRoomTypes().size() ; i++)
 			{
@@ -102,12 +105,29 @@ public class HotelService {
 		}
 		catch (Exception ex) {
 			transaction.rollback();
-			wasSuccess = false;
+			hotel.setId(0);
 		}
 		finally {
 			session.close();
 		}
-		return wasSuccess;
+		return hotel.getId();
+	}
+
+	public boolean saveMainPhoto(MultipartFile file, int hotelId)
+	{
+		try
+		{
+			String photoId = dbFileService.storeFile(file, hotelId).getId();
+			Hotel hotel = repo.findById(hotelId).get();
+			hotel.setMainPhoto(new DBFile());
+			hotel.getMainPhoto().setId(photoId);
+			repo.save(hotel);
+		}
+		catch (Exception ex)
+		{
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -1,13 +1,15 @@
 package hotelAPI.hotel;
 
-import java.util.*;
-
 import hotelAPI.DBFile.DBFileService;
 import hotelAPI.roomType.RoomTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
 
 
 @RestController
@@ -26,7 +28,7 @@ public class HotelController {
 		ArrayList<HotelViewModel> resp = new ArrayList<>();
 		service.getAll().forEach(hotel -> {	HotelViewModel hvm = new HotelViewModel(hotel);
 											try{
-												hvm.setPhoto(dbFileService.getFile(hotel.getMainPhotoId()).getData());
+												hvm.setPhoto(dbFileService.getFile(hotel.getMainPhoto().getId()).getData());
 											}
 											catch (Exception ex){
 
@@ -55,8 +57,10 @@ public class HotelController {
 	public ResponseEntity createHotel(@RequestBody HotelCreateDTO hotelCreateDTO)
 	{
 		HashMap<String, Object> resp = new HashMap<>();
-		if (service.createHotel(hotelCreateDTO)) {
+		int hotelId = service.createHotel(hotelCreateDTO);
+		if (hotelId != 0) {
 			resp.put("message", "Dodano hotel");
+			resp.put("hotelId", hotelId);
 			return ResponseEntity.status(HttpStatus.OK).body(resp);
 		}
 		else
@@ -65,14 +69,15 @@ public class HotelController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
 		}
 	}
-
+/*
 	@RequestMapping(method=RequestMethod.PUT, value="/hotels/{id}")
 	public void addHotel(@RequestBody Hotel hotel, @PathVariable int id) {
 		service.add(hotel);
 	}
-	
-	@RequestMapping(method=RequestMethod.DELETE, value="/Hotels/{id}")
-	public void deleteHotel(@RequestBody Hotel Hotel, @PathVariable int id) {
+	*/
+	@PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+	@RequestMapping(method=RequestMethod.DELETE, value="/hotels/{id}")
+	public void deleteHotel(@PathVariable int id) {
 		service.deleteById(id);
 	}
 
@@ -84,7 +89,7 @@ public class HotelController {
 		managedHotels.forEach(hotel -> {
 			HotelViewModel hvm = new HotelViewModel(hotel);
 			try{
-				hvm.setPhoto(dbFileService.getFile(hotel.getMainPhotoId()).getData());
+				hvm.setPhoto(dbFileService.getFile(hotel.getMainPhoto().getId()).getData());
 			}
 			catch (Exception ex){
 
@@ -93,4 +98,22 @@ public class HotelController {
 		});
 		return resp;
 	}
+
+	@RequestMapping(value = "/uploadHotelMainPhoto/{hotelId}", method = RequestMethod.POST)
+	public ResponseEntity uploadMainPhoto(@RequestBody MultipartFile files, @PathVariable int hotelId)
+	{
+		Map<String, Object> resp = new HashMap<>();
+		if(service.saveMainPhoto(files, hotelId))
+		{
+			resp.put("message", "Dodano zdjecie");
+			return ResponseEntity.ok(resp);
+		}
+		else
+		{
+			resp.put("message", "Nie udalo sie dodac zdjecia");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
+		}
+	}
+
+
 }

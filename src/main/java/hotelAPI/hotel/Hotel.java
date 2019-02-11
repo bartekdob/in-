@@ -73,10 +73,6 @@ public class Hotel {
 		this.hotelName = hotelName;
 	}
 
-	public String getMainPhotoId() {
-		return mainPhoto.getId();
-	}
-
 	public DBFile getMainPhoto() {
 		return mainPhoto;
 	}
@@ -93,9 +89,6 @@ public class Hotel {
 		this.description = description;
 	}
 
-	public void setMainPhotoId(String mainPhotoId) {
-		this.mainPhoto.setId(mainPhotoId);
-	}
 
 	public String getName() {
 		return hotelName;

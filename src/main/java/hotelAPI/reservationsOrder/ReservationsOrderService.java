@@ -50,6 +50,16 @@ public class ReservationsOrderService {
         repo.deleteById(id);
     }
 
+    public boolean checkAvailability(ReservationOrderViewModel rovm){
+        boolean orderCanBeSatisfied = true;
+        for (RoomRequest roomRequest: rovm.getRoomRequests()
+                ) {
+            if(roomService.findFreeRoomsIds(roomRequest.getRoomTypeId(), rovm.getHotelId(), rovm.getDateFrom(), rovm.getDateTo()).size() < roomRequest.getRequestedNumber())
+                orderCanBeSatisfied = false;
+        }
+        return orderCanBeSatisfied;
+    }
+
     public List<Reservation> tryToReserve(ReservationOrderViewModel rovm){
         boolean orderCanBeSatisfied = true;
         ArrayList<Room> roomList = new ArrayList<>();
