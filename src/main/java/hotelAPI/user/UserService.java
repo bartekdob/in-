@@ -1,6 +1,8 @@
 package hotelAPI.user;
 
 
+import hotelAPI.Role.Role;
+import hotelAPI.Role.RoleService;
 import hotelAPI.hotel.Hotel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
+
+    @Autowired
+    private RoleService roleService;
 
     public Integer getUserId(String username){
         User user = repo.findByUsername(username);
@@ -81,6 +86,9 @@ public class UserService implements UserDetailsService {
 
     public User save(User user) {
         user.setPassword(bcryptEncoder.encode(user.getPassword()));
+        Role role = roleService.findByName("USER");
+        user.setRoles(new HashSet<>());
+        user.getRoles().add(role);
         return repo.save(user);
     }
 

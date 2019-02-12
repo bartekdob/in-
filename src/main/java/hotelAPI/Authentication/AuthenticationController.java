@@ -1,5 +1,6 @@
 package hotelAPI.Authentication;
 
+import hotelAPI.Role.Role;
 import hotelAPI.configuration.JwtTokenUtil;
 import hotelAPI.user.LoginUser;
 import hotelAPI.user.User;
@@ -45,6 +46,9 @@ public class AuthenticationController {
         final String token = jwtTokenUtil.doGenerateToken(user);
         AuthToken resp = new AuthToken(token);
         resp.setUsername(loginUser.getUsername());
+        for (Role role : user.getRoles()) {
+            resp.getRoles().add(role.getName());
+        }
         return ResponseEntity.ok(resp);
     }
 

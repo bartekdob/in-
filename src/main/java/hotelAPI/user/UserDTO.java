@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 
 public class UserDTO {
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
@@ -18,6 +19,7 @@ public class UserDTO {
 
     public UserDTO(User user)
     {
+        this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.username = user.getUsername();
@@ -72,5 +74,13 @@ public class UserDTO {
 
     public void setManagedHotels(Set<HotelViewModel> managedHotels) {
         this.managedHotels = managedHotels;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
